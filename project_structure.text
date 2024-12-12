@@ -1,0 +1,38 @@
+- .env
+- .projectFile
+- bun.lockb
+- index.html
+- package-lock.json
+- package.json
+- postcss.config.js
+- project_structure.text
+- src
+  - App.jsx
+  - backend
+    - .env
+    - server.js
+  - components
+    - AnalysisResults.jsx
+    - DetectedItems.jsx
+    - FileUpload.jsx
+    - ImagePreview.jsx
+    - LoadingSpinner.jsx
+    - NutritionChart.jsx
+    - NutritionInfo.jsx
+  - config
+    - constants.js
+  - hooks
+    - useImageAnalysis.js
+  - index.css
+  - main.jsx
+  - services
+    - openai
+      - api.js
+      - config.js
+      - index.js
+      - prompts.js
+    - openai.js
+  - utils
+    - imageUtils.js
+- tailwind.config.js
+- vite.config.js

@@ -1,0 +1,141 @@
+1. Objectif principal
+Créer une application web permettant aux utilisateurs d'uploader une image d'un plat/repas, d'analyser cette image pour identifier les aliments présents et d'afficher des informations nutritionnelles associées.
+
+2. Architecture globale
+Frontend :
+Utilise React et Vite.
+Stylisé avec TailwindCSS.
+Composants principaux :
+Un formulaire pour uploader l'image.
+Une zone pour afficher les aliments détectés.
+Un diagramme (pie chart) pour représenter visuellement les informations nutritionnelles.
+Backend :
+Développé avec Node.js et Express.
+Gère la logique API, notamment l'interaction avec l'API OpenAI et l'analyse des images.
+Permet une abstraction afin de tester différents modèles (OpenAI, Groq, Gemini...).
+3. Frontend - React avec Vite et Tailwind
+Voici comment organiser le frontend :
+
+Structure des fichiers :
+
+- .env
+- .projectFile
+- bun.lockb
+- index.html
+- package-lock.json
+- package.json
+- postcss.config.js
+- project_structure.text
+- src
+  - App.jsx
+  - backend
+    - .env
+    - server.js
+  - components
+    - AnalysisResults.jsx
+    - DetectedItems.jsx
+    - FileUpload.jsx
+    - ImagePreview.jsx
+    - LoadingSpinner.jsx
+    - NutritionChart.jsx
+    - NutritionInfo.jsx
+  - config
+    - constants.js
+  - hooks
+    - useImageAnalysis.js
+  - index.css
+  - main.jsx
+  - services
+    - openai
+      - api.js
+      - config.js
+      - index.js
+      - prompts.js
+    - openai.js
+  - utils
+    - imageUtils.js
+- tailwind.config.js
+- vite.config.js
+
+
+4. Points importants
+Abstraction de l'API :
+Vous utilisez directement l’URL d’OpenAI, ce qui permettra plus tard de changer facilement de modèle (Groq, Gemini).
+Stockage temporaire :
+Les fichiers uploadés sont stockés temporairement via multer et supprimés après traitement.
+Configuration de sécurité :
+Assurez-vous de garder la clé API sécurisée (via des variables d’environnement).
+
+
+## User Fastify
+from the doc:
+
+// Import the framework and instantiate it
+import Fastify from 'fastify'
+const fastify = Fastify({
+  logger: true
+})
+
+// Declare a route
+fastify.get('/', async function handler (request, reply) {
+  return { hello: 'world' }
+})
+
+// Run the server!
+try {
+  await fastify.listen({ port: 3000 })
+} catch (err) {
+  fastify.log.error(err)
+  process.exit(1)
+}
+
+Install
+To install Fastify in an existing project as a dependency:
+
+npm i fastify
+Example
+// Require the framework and instantiate it
+
+// ESM
+import Fastify from 'fastify'
+
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+// Declare a route
+fastify.get('/', (request, reply) => {
+  reply.send({ hello: 'world' })
+})
+
+// Run the server!
+fastify.listen({ port: 3000 }, (err, address) => {
+  if (err) throw err
+  // Server is now listening on ${address}
+})
+with async-await:
+
+// ESM
+import Fastify from 'fastify'
+
+const fastify = Fastify({
+  logger: true
+})
+// CommonJs
+const fastify = require('fastify')({
+  logger: true
+})
+
+fastify.get('/', async (request, reply) => {
+  reply.type('application/json').code(200)
+  return { hello: 'world' }
+})
+
+fastify.listen({ port: 3000 }, (err, address) => {
+  if (err) throw err
+  // Server is now listening on ${address}
+})
