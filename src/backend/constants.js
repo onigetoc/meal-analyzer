@@ -1,7 +1,7 @@
 export const OPENAI_CONFIG = {
   API_URL: 'https://api.openai.com/v1/chat/completions',
-  MODEL: 'gpt-4o-mini',  // Correction du modèle
-  MAX_TOKENS: 500
+  MODEL: 'gpt-4o-mini',  // Remise du modèle original
+  MAX_TOKENS: 500  // Remise de la valeur originale
 };
 
 export const CHART_COLORS = {
