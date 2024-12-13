@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import FileUpload from './components/FileUpload';
 import LoadingSpinner from './components/LoadingSpinner';
 import AnalysisResults from './components/AnalysisResults';
-import NutritionInfo from './components/NutritionInfo';
+// import NutritionInfo from './components/NutritionInfo';
 import { useImageAnalysis } from './hooks/useImageAnalysis';
 
 const App = () => {
