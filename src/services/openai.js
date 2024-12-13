@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = '/api'; // Utiliser le proxy Vite au lieu de l'URL complète
 
-export const analyzeImage = async (base64Image) => {
+export const analyzeImage = async (base64Image, language = navigator.language.split('-')[0]) => {
   if (!base64Image) {
     throw new Error('Image data is required');
   }
@@ -10,7 +10,8 @@ export const analyzeImage = async (base64Image) => {
   try {
     console.log('📤 Sending request to:', `${API_URL}/analyze`);
     const response = await axios.post(`${API_URL}/analyze`, { 
-      base64Image 
+      base64Image,
+      language 
     }, {
       headers: {
         'Content-Type': 'application/json'

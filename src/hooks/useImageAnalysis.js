@@ -35,7 +35,7 @@ export const useImageAnalysis = () => {
       
       console.log('✅ Analysis result:', result);
       setAnalysis(result);
-      toast.success('Analyse terminée avec succès');
+      toast.success('Image analysis completed successfully');
     } catch (error) {
       const errorMessage = error.message || ERROR_MESSAGES.ANALYSIS_FAILED;
       console.error('❌ Analysis error:', error);

@@ -18,7 +18,7 @@ const App = () => {
       <Toaster position="top-right" />
       
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">Analyseur de Repas</h1>
+        <h1 className="text-3xl font-bold mb-8 text-center">Meal Analyzer</h1>
         
         <div className="flex justify-center mb-8">
           <FileUpload onFileSelect={analyzeImageFile} />
