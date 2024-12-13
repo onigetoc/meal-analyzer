@@ -19,6 +19,54 @@ const openai = new OpenAI({
     apiKey: process.env.VITE_OPENAI_API_KEY
 })
 
+const prompt = `
+You are an AI assistant trained to analyze food images and estimate their nutritional content. 
+
+Here is the task:
+
+1. Provide a short description in English of the food visible in the image, including the main ingredients and any other relevant details.
+2. Estimate the nutritional content of the entire dish. Include the following keys: {'calories': number, 'protein': number, 'carbs': number, 'fat': number}.
+3. List all individual food items visible in the image, along with their estimated calorie counts.
+4. if there's multiple item like 2 eggs
+5. estimate the number of grams of each item
+
+Respond **only** in the following JSON format:
+{
+  "description": "Short description of the food visible.",
+  "nutrition_estimate": {
+    "calories": total_calories,
+    "protein": total_protein,
+    "carbs": total_carbs,
+    "fat": total_fat
+  },
+  "detailed_elements": [
+    { "name": "Food item name", "calories": estimated_calories },
+    { "name": "Another food item", "calories": estimated_calories }
+  ]
+}
+
+Do not include any additional text, commentary, or explanations outside of the JSON output.
+
+Here is an example response:
+{
+  "description": "This dish contains two main elements: slices of pizza and spaghetti with bolognese sauce. Here is a nutritional estimate based on typical portions.",
+  "nutrition_estimate": {
+    "calories": 800,
+    "protein": 30,
+    "carbs": 90,
+    "fat": 25
+  },
+  "detailed_elements": [
+    { "name": "pizza slice", "calories": 400 },
+    { "name": "2 eggs (medium)", "calories": 140 },
+    { "name": "tofu (190g)", "calories": 200 },
+    { "name": "spaghetti with bolognese sauce", "calories": 400 }
+  ]
+}
+  `;
+
+// const promptOLD = 'Analyze this food image andPlease, give a estimation of the following informations and provide only these details in JSON format: {'calories': number, 'protein': number, 'carbs': number, 'fat': number}';
+
 await fastify.register(cors, {
     origin: true,
     methods: ['GET', 'POST'],
@@ -48,11 +96,6 @@ fastify.post('/api/analyze', async (request, reply) => {
             });
         }
 
-        const prompt = `
-    You are an AI assistant trained to analyze food images and estimate their nutritional content. 
-    [... INSERT PROMPT REVISED ABOVE ...]
-`;
-
         console.log('🚀 Analyzing image with OpenAI...');
         const response = await openai.chat.completions.create({
             model: OPENAI_CONFIG.MODEL, // Utilisation de la constante
@@ -60,7 +103,7 @@ fastify.post('/api/analyze', async (request, reply) => {
                 role: "user",
                 content: [{
                         type: "text",
-                        text: "Analyze this food image andPlease, give a estimation of the following informations and provide only these details in JSON format: {'calories': number, 'protein': number, 'carbs': number, 'fat': number}"
+                        text: prompt
                     },
                     {
                         type: "image_url",
@@ -99,17 +142,18 @@ fastify.post('/api/analyze', async (request, reply) => {
         const responseData = {
             success: true,
             data: {
-                nutrition: {
-                    calories: Number(nutritionData.calories) || 0,
-                    protein: Number(nutritionData.protein) || 0,
-                    carbs: Number(nutritionData.carbs) || 0,
-                    fat: Number(nutritionData.fat) || 0
+                description: nutritionData.description || '',
+                nutrition: nutritionData.nutrition_estimate || {
+                    calories: 0,
+                    protein: 0,
+                    carbs: 0,
+                    fat: 0
                 },
-                detectedItems: []
+                detectedItems: nutritionData.detailed_elements || []
             }
         };
 
-        console.log('📤 Sending final response:', responseData);
+        console.log('📤 Sending final response:', JSON.stringify(responseData, null, 2));
         return reply.code(200).send(responseData);
 
     } catch (error) {

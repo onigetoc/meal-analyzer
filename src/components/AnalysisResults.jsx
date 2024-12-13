@@ -1,6 +1,5 @@
 import React from 'react';
 import ImagePreview from './ImagePreview';
-import DetectedItems from './DetectedItems';
 import NutritionInfo from './NutritionInfo';
 
 const AnalysisResults = ({ imageFile, analysis }) => {
@@ -11,10 +10,11 @@ const AnalysisResults = ({ imageFile, analysis }) => {
       <ImagePreview imageUrl={URL.createObjectURL(imageFile)} />
       
       {analysis && (
-        <>
-          <DetectedItems items={analysis.detectedItems} />
-          <NutritionInfo nutritionData={analysis.nutrition} />
-        </>
+        <NutritionInfo 
+          nutritionData={analysis.nutrition}
+          description={analysis.description}
+          detectedItems={analysis.detectedItems}
+        />
       )}
     </div>
   );
