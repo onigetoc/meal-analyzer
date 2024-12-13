@@ -5,8 +5,8 @@ const ImagePreview = ({ imageUrl }) => {
     <div className="w-full mb-6">
       <img 
         src={imageUrl} 
-        alt="Repas à analyser" 
-        className="w-full h-[300px] object-cover rounded-lg shadow-lg"
+        alt="Meals to analyze" 
+        className="w-full h-[300px] object-cover rounded-t-lg shadow-lg"
       />
     </div>
   );

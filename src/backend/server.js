@@ -4,16 +4,21 @@ import multipart from '@fastify/multipart'
 import { OpenAI } from 'openai'
 import dotenv from 'dotenv'
 import { OPENAI_CONFIG } from './constants.js'
-import { analyzeImagePrompt, getPromptForLanguage } from './prompt.js'
+import { getPromptForLanguage } from './prompt.js'
 
- dotenv.config()
- 
+dotenv.config()
+
 const fastify = Fastify({
     logger: true
 })
 
 const openai = new OpenAI({
-    apiKey: process.env.VITE_OPENAI_API_KEY
+    apiKey: process.env.VITE_OPENAI_API_KEY,
+    baseURL: OPENAI_CONFIG.API_URL, 
+    defaultHeaders: {
+        'HTTP-Referer': 'http://localhost:5173',
+        'X-Title': 'Calories Counter'
+    }
 })
 
 await fastify.register(cors, {
@@ -32,8 +37,9 @@ fastify.get('/', async (request, reply) => {
 })
 
 // Route pour l'analyse d'image
-fastify.post('/api/analyze', async (request, reply) => {
+fastify.post('/analyze', async (request, reply) => {  // Route simple /analyze
     try {
+        console.log(OPENAI_CONFIG.API_URL);
         console.log('📥 Received request body:', request.body);
         const { base64Image, language = 'en' } = request.body;
         if (!base64Image) {
@@ -45,24 +51,21 @@ fastify.post('/api/analyze', async (request, reply) => {
 
         const promptWithLang = getPromptForLanguage(language);
         
-        console.log('🚀 Analyzing image with OpenAI...');
         const response = await openai.chat.completions.create({
             model: OPENAI_CONFIG.MODEL,
             messages: [{
                 role: "user",
                 content: [{
-                        type: "text",
-                        text: promptWithLang
-                    },
-                    {
-                        type: "image_url",
-                        image_url: {
-                            url: base64Image
-                        }
+                    type: "text",
+                    text: promptWithLang
+                },
+                {
+                    type: "image_url",
+                    image_url: {
+                        url: base64Image
                     }
-                ]
-            }],
-            max_tokens: OPENAI_CONFIG.MAX_TOKENS
+                }]
+            }]
         });
 
         const content = response.choices[0].message.content;

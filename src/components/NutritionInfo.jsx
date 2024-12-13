@@ -2,7 +2,7 @@ import React from 'react';
 import NutritionChart from './NutritionChart';
 
 const NutritionInfo = ({ nutritionData, description, detectedItems }) => (
-  <div className="mt-6 bg-gray-800 p-0 rounded-xl">
+  <div className="mt-6 bg-gray-800 p-0 rt-6 bg-gray-800 p-0 px-6 pb-4 rounded-xlounded-xl">
     {description && (
       <p className="text-white mb-4">{description}</p>
     )}

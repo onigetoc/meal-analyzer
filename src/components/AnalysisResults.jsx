@@ -6,7 +6,7 @@ const AnalysisResults = ({ imageFile, analysis }) => {
   if (!imageFile) return null;
 
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-xl">
+    <div className="bg-gray-800 p-0 rounded-lg shadow-xl">
       <ImagePreview imageUrl={URL.createObjectURL(imageFile)} />
       
       {analysis && (

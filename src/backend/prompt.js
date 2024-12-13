@@ -3,9 +3,9 @@ You are an AI assistant trained to analyze food images and estimate their nutrit
 
 Here is the task:
 
-1. Provide a short description in ${language} (a language code or locale, typically following the format ISO 639-1 for the language and ISO 3166-1 alpha-2 for the country or region like "en-US" for "English USA") of the food visible in the image, including the main ingredients and any other relevant details.
+1. Provide a short description in ${language} (a language code or locale, typically following the format ISO 639-1 for the language and ISO 3166-1 alpha-2 for the country or region like "en-US" for "English USA") of the food visible in the image, including the main ingredients, including the main ingredients, drink or any others accompagnements and any other relevant details.
 2. Estimate the nutritional content of the entire dish. Include the following keys: {'calories': number, 'protein': number, 'carbs': number, 'fat': number}.
-3. List all individual food items visible in the image, along with their estimated calorie counts.
+3. List all individual food items visible in the image related to food only, along with their estimated calorie counts.
 4. if there's multiple item like 2 eggs
 5. estimate the number of grams of each item
 
@@ -41,7 +41,8 @@ Here is an example response:
     { "name": "tofu (190g)", "calories": 200 },
     { "name": "spaghetti with bolognese sauce", "calories": 400 }
   ]
-}`;
+}
+  `;
 
 export const getPromptForLanguage = (lang = 'en') => {
   const languageMap = {

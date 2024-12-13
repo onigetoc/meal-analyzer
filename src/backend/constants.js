@@ -1,7 +1,17 @@
 export const OPENAI_CONFIG = {
-  API_URL: 'https://api.openai.com/v1/chat/completions',
-  MODEL: 'gpt-4o-mini',  // Remise du modèle original
+  // API_URL: 'https://api.openai.com/v1', // OPENAI API
+  // API_URL: 'https://api.mistral.ai/v1/chat/completions', // MISTRAL API
+  API_URL: 'https://openrouter.ai/api/v1', // OPENROUTER API
+  // MODEL: 'gpt-4o-mini',  // Remise du modèle original
+  // MODEL: 'pixtral-12b-2409',  // MODEL MISTRAL
+  MODEL: 'mistralai/pixtral-12b',  // MODEL OPENROUTER
   MAX_TOKENS: 500  // Remise de la valeur originale
+};
+
+// Ajoutez ces configurations
+export const OPENROUTER_CONFIG = {
+  REFERER: 'http://localhost:5173',
+  APP_NAME: 'Calories Counter'
 };
 
 export const CHART_COLORS = {
